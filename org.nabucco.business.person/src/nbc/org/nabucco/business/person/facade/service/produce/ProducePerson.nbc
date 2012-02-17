@@ -1,0 +1,78 @@
+/*
+* Copyright 2010 PRODYNA AG
+*
+* Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.opensource.org/licenses/eclipse-1.0.php or
+* http://www.nabucco-source.org/nabucco-license.html
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+package org.nabucco.business.person.facade.service.produce;
+
+import org.nabucco.business.person.facade.message.ApplicantListMsg;
+import org.nabucco.business.person.facade.message.BankAccountListMsg;
+import org.nabucco.business.person.facade.message.ContactPersonListMsg;
+import org.nabucco.business.person.facade.message.EmployeeAccountingDataListMsg;
+import org.nabucco.business.person.facade.message.EmployeeContractDataListMsg;
+import org.nabucco.business.person.facade.message.EmployeeListMsg;
+import org.nabucco.business.person.facade.message.EmployeeRoleListMsg;
+import org.nabucco.business.person.facade.message.IndividualPersonListMsg;
+import org.nabucco.business.person.facade.message.produce.ApplicantProduceRq;
+import org.nabucco.business.person.facade.message.produce.BankAccountProduceRq;
+import org.nabucco.business.person.facade.message.produce.ContactPersonProduceRq;
+import org.nabucco.business.person.facade.message.produce.EmployeeAccountingDataProduceRq;
+import org.nabucco.business.person.facade.message.produce.EmployeeContractDataProduceRq;
+import org.nabucco.business.person.facade.message.produce.EmployeeProduceRq;
+import org.nabucco.business.person.facade.message.produce.EmployeeRoleProduceRq;
+import org.nabucco.business.person.facade.message.produce.IndividualPersonProduceRq;
+import org.nabucco.framework.base.facade.exception.service.ProduceException;
+
+@Author			Dominic Trumpfheller
+@Company		PRODYNA AG
+@Date			2010-11-30
+@Version		1.0
+@Description	Produce Service for Person
+public Service ProducePerson {
+
+	@Inject
+	private EntityManager[1] entityManager;
+
+    @ManualImplementation
+	public EmployeeListMsg produceEmployee(EmployeeProduceRq msg)
+		throws ProduceException;
+		
+    @ManualImplementation
+	public EmployeeRoleListMsg produceEmployeeRole(EmployeeRoleProduceRq msg)
+		throws ProduceException;
+		
+    @ManualImplementation
+	public BankAccountListMsg produceBankAccount(BankAccountProduceRq msg)
+		throws ProduceException;
+		
+    @ManualImplementation
+	public EmployeeAccountingDataListMsg produceEmployeeAccountingData(EmployeeAccountingDataProduceRq msg)
+		throws ProduceException;
+		
+    @ManualImplementation
+	public EmployeeContractDataListMsg produceEmployeeContractData(EmployeeContractDataProduceRq msg)
+		throws ProduceException;
+		
+	@ManualImplementation
+	public IndividualPersonListMsg produceIndividualPerson(IndividualPersonProduceRq msg)
+		throws ProduceException;
+		
+	@ManualImplementation
+	public ContactPersonListMsg produceContactPerson(ContactPersonProduceRq msg)
+		throws ProduceException;
+		
+	@ManualImplementation
+	public ApplicantListMsg produceApplicant(ApplicantProduceRq msg)
+		throws ProduceException;
+}

@@ -1,0 +1,78 @@
+/*
+* Copyright 2010 PRODYNA AG
+*
+* Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.opensource.org/licenses/eclipse-1.0.php or
+* http://www.nabucco-source.org/nabucco-license.html
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+package org.nabucco.business.person.facade.component;
+
+import org.nabucco.business.person.facade.datatype.Absence;
+import org.nabucco.business.person.facade.datatype.Applicant;
+import org.nabucco.business.person.facade.datatype.BankAccount;
+import org.nabucco.business.person.facade.datatype.ContactPerson;
+import org.nabucco.business.person.facade.datatype.Employee;
+import org.nabucco.business.person.facade.datatype.EmployeeAccountingData;
+import org.nabucco.business.person.facade.datatype.EmployeeContractData;
+import org.nabucco.business.person.facade.datatype.EmployeeRole;
+import org.nabucco.business.person.facade.datatype.IndividualPerson;
+import org.nabucco.business.person.facade.datatype.PersonCharacteristic;
+import org.nabucco.business.person.facade.datatype.PersonMaster;
+import org.nabucco.business.person.facade.datatype.PersonRelation;
+import org.nabucco.business.person.facade.service.maintain.MaintainPerson;
+import org.nabucco.business.person.facade.service.produce.ProducePerson;
+import org.nabucco.business.person.facade.service.resolve.ResolvePerson;
+import org.nabucco.business.person.facade.service.search.SearchPerson;
+
+@Author			Dominic Trumpfheller
+@Company		PRODYNA AG
+@Date			2010-11-30
+@Version		1.0
+@Description	Person component
+public Component PersonComponent {
+	
+	@Referenceable
+	private persistent Datatype IndividualPerson[1] individualPerson;
+	
+	@Referenceable
+	private persistent Datatype ContactPerson[1] contactPerson;
+	
+	@Referenceable
+	private persistent Datatype Employee[1] employee;
+	
+	@Referenceable
+	private persistent Datatype Applicant[1] applicant;
+
+	private persistent Datatype PersonMaster[1] personMaster;
+	
+	private persistent Datatype PersonRelation[1] personRelation;
+	
+	private persistent Datatype PersonCharacteristic[1] personCharacteristic;
+	
+	private persistent Datatype EmployeeRole[1] employeeRole;
+	
+	private persistent Datatype EmployeeAccountingData[1] employeeAccountingData;
+	
+	private persistent Datatype EmployeeContractData[1] employeeContractData;
+	
+	private persistent Datatype BankAccount[1] bankAccount;
+	
+	private persistent Datatype Absence[1] absense;
+	
+	public Service MaintainPerson;
+	
+	public Service ProducePerson;
+	
+	public Service ResolvePerson;
+	
+	public Service SearchPerson;
+}

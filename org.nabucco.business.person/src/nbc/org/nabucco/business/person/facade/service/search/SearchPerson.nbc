@@ -1,0 +1,75 @@
+/*
+* Copyright 2010 PRODYNA AG
+*
+* Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.opensource.org/licenses/eclipse-1.0.php or
+* http://nabuccosource.org/nabucco-license.html
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+package org.nabucco.business.person.facade.service.search;
+
+import org.nabucco.business.person.facade.message.ApplicantListMsg;
+import org.nabucco.business.person.facade.message.ContactPersonListMsg;
+import org.nabucco.business.person.facade.message.EmployeeIdListMsg;
+import org.nabucco.business.person.facade.message.EmployeeListMsg;
+import org.nabucco.business.person.facade.message.IndividualPersonListMsg;
+import org.nabucco.business.person.facade.message.PersonCharacteristicMsg;
+import org.nabucco.business.person.facade.message.PersonMasterListMsg;
+import org.nabucco.business.person.facade.message.PersonMsg;
+import org.nabucco.business.person.facade.message.search.ApplicantSearchRq;
+import org.nabucco.business.person.facade.message.search.ContactPersonSearchRq;
+import org.nabucco.business.person.facade.message.search.EmployeeIdSearchRq;
+import org.nabucco.business.person.facade.message.search.EmployeeSearchRq;
+import org.nabucco.business.person.facade.message.search.IndividualPersonSearchRq;
+import org.nabucco.business.person.facade.message.search.PersonCharacteristicSearchRq;
+import org.nabucco.business.person.facade.message.search.PersonMasterSearchRq;
+import org.nabucco.business.person.facade.message.search.PersonSearchRq;
+import org.nabucco.framework.base.facade.exception.service.SearchException;
+
+@Author			Dominic Trumpfheller, Holger Librenz
+@Company		PRODYNA AG
+@Date			2011-07-19
+@Version		1.2
+@Description	Search Service for Person
+public Service SearchPerson {
+
+    @ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public EmployeeListMsg searchEmployee(EmployeeSearchRq msg) throws SearchException;
+		
+	@ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public EmployeeIdListMsg searchEmployeeId(EmployeeIdSearchRq msg) throws SearchException;
+		
+    @ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public PersonCharacteristicMsg searchPersonCharacteristicByPersonMasterId(PersonCharacteristicSearchRq msg) throws SearchException;
+
+    @ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public IndividualPersonListMsg searchIndividualPerson(IndividualPersonSearchRq msg) throws SearchException;
+		
+    @ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public ContactPersonListMsg searchContactPerson(ContactPersonSearchRq msg) throws SearchException;
+			
+    @ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public ApplicantListMsg searchApplicant(ApplicantSearchRq msg) throws SearchException;
+
+	@ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public PersonMsg searchPersonDatatype(PersonSearchRq rq) throws SearchException;
+
+	@ManualImplementation
+	@JoinPoint		org.nabucco.aspect.transitioning
+	public PersonMasterListMsg searchPersonMaster (PersonMasterSearchRq rq) throws SearchException;
+}

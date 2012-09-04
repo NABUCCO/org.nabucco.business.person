@@ -1,18 +1,16 @@
 /*
  * Copyright 2012 PRODYNA AG
- *
- * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License"); you may not use
+ * this file except in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.opensource.org/licenses/eclipse-1.0.php or
  * http://www.nabucco.org/License.html
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 package org.nabucco.business.person.facade.datatype;
 
@@ -55,7 +53,7 @@ public class Employee extends PersonCharacteristic implements Datatype {
     private static final PersonCharacteristicType CHARACTERISTICTYPE_DEFAULT = PersonCharacteristicType.EMPLOYEE;
 
     private static final String[] PROPERTY_CONSTRAINTS = { "l0,n;u0,n;m0,1;", "l0,n;u0,n;m1,1;", "l0,n;u0,n;m0,1;",
-            "l0,n;u0,n;m0,1;", "m1,1;", "m0,n;", "m0,1;", "m0,1;", "m0,1;", "m0,n;" };
+            "l0,n;u0,n;m0,1;", "m1,1;", "m0,n;", "m0,1;", "m0,1;", "m0,1;", "m0,n;", "l0,n;u0,n;m0,1;" };
 
     public static final String EMPLOYEEID = "employeeId";
 
@@ -76,6 +74,8 @@ public class Employee extends PersonCharacteristic implements Datatype {
     public static final String BANKACCOUNT = "bankAccount";
 
     public static final String ABSENCELIST = "absenceList";
+
+    public static final String AVAILABILITYDATE = "availabilityDate";
 
     private FunctionalIdentifier employeeId;
 
@@ -101,6 +101,9 @@ public class Employee extends PersonCharacteristic implements Datatype {
 
     /** The absences of the employee */
     private NabuccoList<Absence> absenceList;
+
+    /** The field describes the availability of the scheduling */
+    private Date availabilityDate;
 
     /** Constructs a new Employee instance. */
     public Employee() {
@@ -153,6 +156,9 @@ public class Employee extends PersonCharacteristic implements Datatype {
         }
         if ((this.absenceList != null)) {
             clone.absenceList = this.absenceList.cloneCollection();
+        }
+        if ((this.getAvailabilityDate() != null)) {
+            clone.setAvailabilityDate(this.getAvailabilityDate().cloneObject());
         }
     }
 
@@ -233,6 +239,8 @@ public class Employee extends PersonCharacteristic implements Datatype {
                 PROPERTY_CONSTRAINTS[8], false, PropertyAssociationType.COMPOSITION));
         propertyMap.put(ABSENCELIST, PropertyDescriptorSupport.createCollection(ABSENCELIST, Absence.class, 15,
                 PROPERTY_CONSTRAINTS[9], false, PropertyAssociationType.COMPOSITION));
+        propertyMap.put(AVAILABILITYDATE, PropertyDescriptorSupport.createBasetype(AVAILABILITYDATE, Date.class, 16,
+                PROPERTY_CONSTRAINTS[10], false));
         return new NabuccoPropertyContainer(propertyMap);
     }
 
@@ -258,6 +266,8 @@ public class Employee extends PersonCharacteristic implements Datatype {
                 .add(super.createProperty(Employee.getPropertyDescriptor(CONTRACTDATA), this.getContractData(), null));
         properties.add(super.createProperty(Employee.getPropertyDescriptor(BANKACCOUNT), this.getBankAccount(), null));
         properties.add(super.createProperty(Employee.getPropertyDescriptor(ABSENCELIST), this.absenceList, null));
+        properties.add(super.createProperty(Employee.getPropertyDescriptor(AVAILABILITYDATE), this.availabilityDate,
+                null));
         return properties;
     }
 
@@ -296,6 +306,9 @@ public class Employee extends PersonCharacteristic implements Datatype {
             return true;
         } else if ((property.getName().equals(ABSENCELIST) && (property.getType() == Absence.class))) {
             this.absenceList = ((NabuccoList<Absence>) property.getInstance());
+            return true;
+        } else if ((property.getName().equals(AVAILABILITYDATE) && (property.getType() == Date.class))) {
+            this.setAvailabilityDate(((Date) property.getInstance()));
             return true;
         }
         return false;
@@ -361,6 +374,11 @@ public class Employee extends PersonCharacteristic implements Datatype {
                 return false;
         } else if ((!this.bankAccount.equals(other.bankAccount)))
             return false;
+        if ((this.availabilityDate == null)) {
+            if ((other.availabilityDate != null))
+                return false;
+        } else if ((!this.availabilityDate.equals(other.availabilityDate)))
+            return false;
         return true;
     }
 
@@ -377,6 +395,7 @@ public class Employee extends PersonCharacteristic implements Datatype {
         result = ((PRIME * result) + ((this.accountingData == null) ? 0 : this.accountingData.hashCode()));
         result = ((PRIME * result) + ((this.contractData == null) ? 0 : this.contractData.hashCode()));
         result = ((PRIME * result) + ((this.bankAccount == null) ? 0 : this.bankAccount.hashCode()));
+        result = ((PRIME * result) + ((this.availabilityDate == null) ? 0 : this.availabilityDate.hashCode()));
         return result;
     }
 
@@ -636,6 +655,39 @@ public class Employee extends PersonCharacteristic implements Datatype {
             this.absenceList = new NabuccoListImpl<Absence>(NabuccoCollectionState.INITIALIZED);
         }
         return this.absenceList;
+    }
+
+    /**
+     * The field describes the availability of the scheduling
+     *
+     * @return the Date.
+     */
+    public Date getAvailabilityDate() {
+        return this.availabilityDate;
+    }
+
+    /**
+     * The field describes the availability of the scheduling
+     *
+     * @param availabilityDate the Date.
+     */
+    public void setAvailabilityDate(Date availabilityDate) {
+        this.availabilityDate = availabilityDate;
+    }
+
+    /**
+     * The field describes the availability of the scheduling
+     *
+     * @param availabilityDate the java.util.Date.
+     */
+    public void setAvailabilityDate(java.util.Date availabilityDate) {
+        if ((this.availabilityDate == null)) {
+            if ((availabilityDate == null)) {
+                return;
+            }
+            this.availabilityDate = new Date();
+        }
+        this.availabilityDate.setValue(availabilityDate);
     }
 
     /**

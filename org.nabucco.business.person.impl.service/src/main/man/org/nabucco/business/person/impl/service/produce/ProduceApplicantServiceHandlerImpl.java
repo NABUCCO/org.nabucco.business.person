@@ -44,7 +44,6 @@ public class ProduceApplicantServiceHandlerImpl extends ProduceApplicantServiceH
             master.setDatatypeState(DatatypeState.INITIALIZED);
             master.setStatusType(StatusType.ACTIVE);
             master.setOwner(super.getContext().getOwner());
-            master.setUserId(super.getContext().getUserId());
 
             // applicant
             Applicant applicant = new Applicant();

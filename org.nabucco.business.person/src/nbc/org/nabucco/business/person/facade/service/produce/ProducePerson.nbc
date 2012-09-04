@@ -45,34 +45,42 @@ public Service ProducePerson {
 	private EntityManager[1] entityManager;
 
     @ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public EmployeeListMsg produceEmployee(EmployeeProduceRq msg)
 		throws ProduceException;
 		
     @ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public EmployeeRoleListMsg produceEmployeeRole(EmployeeRoleProduceRq msg)
 		throws ProduceException;
 		
     @ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public BankAccountListMsg produceBankAccount(BankAccountProduceRq msg)
 		throws ProduceException;
 		
     @ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public EmployeeAccountingDataListMsg produceEmployeeAccountingData(EmployeeAccountingDataProduceRq msg)
 		throws ProduceException;
 		
     @ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public EmployeeContractDataListMsg produceEmployeeContractData(EmployeeContractDataProduceRq msg)
 		throws ProduceException;
 		
 	@ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public IndividualPersonListMsg produceIndividualPerson(IndividualPersonProduceRq msg)
 		throws ProduceException;
 		
 	@ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public ContactPersonListMsg produceContactPerson(ContactPersonProduceRq msg)
 		throws ProduceException;
 		
 	@ManualImplementation
+	@JoinPoint				org.nabucco.aspect.initializing
 	public ApplicantListMsg produceApplicant(ApplicantProduceRq msg)
 		throws ProduceException;
 }

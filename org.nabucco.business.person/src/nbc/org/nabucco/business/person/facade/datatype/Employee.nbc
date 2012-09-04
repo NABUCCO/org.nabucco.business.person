@@ -65,4 +65,7 @@ public Datatype Employee extends PersonCharacteristic {
 	
 	@Description	The absences of the employee
 	private Datatype Absence[0..*]	absenceList;
+	
+	@Description		The field describes the availability of the scheduling
+	private Basetype Date[0..1] availabilityDate; 
 }

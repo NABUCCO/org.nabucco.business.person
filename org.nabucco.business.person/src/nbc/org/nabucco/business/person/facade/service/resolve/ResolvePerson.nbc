@@ -16,6 +16,7 @@
 */
 package org.nabucco.business.person.facade.service.resolve;
 
+import org.nabucco.business.person.facade.message.ApplicantListMsg;
 import org.nabucco.business.person.facade.message.ApplicantMsg;
 import org.nabucco.business.person.facade.message.ContactPersonMsg;
 import org.nabucco.business.person.facade.message.EmployeeMsg;
@@ -57,9 +58,18 @@ public Service ResolvePerson {
 	public ContactPersonMsg resolveContactPerson(ContactPersonMsg msg) throws ResolveException;
 		
 	@ManualImplementation
-	@JoinPoint		org.nabucco.aspect.constraining
-	@JoinPoint		org.nabucco.aspect.transitioning
+	@JoinPoint				org.nabucco.aspect.resolving
+	@JoinPoint				org.nabucco.aspect.transitioning
+	@JoinPoint				org.nabucco.aspect.constraining
+	@JoinPoint				org.nabucco.aspect.historization
 	public ApplicantMsg resolveApplicant(ApplicantMsg msg) throws ResolveException;
+	
+	@ManualImplementation
+	@JoinPoint				org.nabucco.aspect.resolving
+	@JoinPoint				org.nabucco.aspect.transitioning
+	@JoinPoint				org.nabucco.aspect.constraining
+	@JoinPoint				org.nabucco.aspect.historization
+	public ApplicantListMsg resolveApplicantList(ApplicantListMsg msg) throws ResolveException;
 		
 	@ManualImplementation
 	@JoinPoint		org.nabucco.aspect.constraining

@@ -60,11 +60,13 @@ public Service MaintainPerson {
 	@ManualImplementation
 	public EmployeeMsg deleteEmployee(EmployeeMsg msg) throws MaintainException;
 		
+	@JoinPoint				org.nabucco.aspect.validating
+	@JoinPoint				org.nabucco.aspect.transitioning
 	@JoinPoint				org.nabucco.aspect.relating
 	@JoinPoint				org.nabucco.aspect.resolving
-	@JoinPoint				org.nabucco.aspect.journaling
 	@JoinPoint				org.nabucco.aspect.indexing
-	@JoinPoint				org.nabucco.aspect.transitioning
+	@JoinPoint				org.nabucco.aspect.constraining
+	@JoinPoint				org.nabucco.aspect.historization
 	@ManualImplementation
 	public ApplicantMsg maintainApplicant(ApplicantMsg msg) throws MaintainException;
 		

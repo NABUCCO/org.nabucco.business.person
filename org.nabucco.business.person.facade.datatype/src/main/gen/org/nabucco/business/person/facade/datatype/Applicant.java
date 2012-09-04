@@ -1,18 +1,16 @@
 /*
  * Copyright 2012 PRODYNA AG
- *
- * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License"); you may not use
+ * this file except in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.opensource.org/licenses/eclipse-1.0.php or
  * http://www.nabucco.org/License.html
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 package org.nabucco.business.person.facade.datatype;
 
@@ -22,16 +20,12 @@ import java.util.Map;
 import java.util.Set;
 import org.nabucco.business.person.facade.datatype.PersonCharacteristic;
 import org.nabucco.business.person.facade.datatype.PersonCharacteristicType;
-import org.nabucco.business.person.facade.datatype.SalaryTimeframe;
-import org.nabucco.framework.base.facade.datatype.Amount;
 import org.nabucco.framework.base.facade.datatype.Datatype;
 import org.nabucco.framework.base.facade.datatype.Flag;
 import org.nabucco.framework.base.facade.datatype.Name;
-import org.nabucco.framework.base.facade.datatype.Number;
 import org.nabucco.framework.base.facade.datatype.code.Code;
 import org.nabucco.framework.base.facade.datatype.code.CodePath;
 import org.nabucco.framework.base.facade.datatype.date.Date;
-import org.nabucco.framework.base.facade.datatype.mail.Body;
 import org.nabucco.framework.base.facade.datatype.property.NabuccoProperty;
 import org.nabucco.framework.base.facade.datatype.property.NabuccoPropertyContainer;
 import org.nabucco.framework.base.facade.datatype.property.NabuccoPropertyDescriptor;
@@ -51,59 +45,36 @@ public class Applicant extends PersonCharacteristic implements Datatype {
 
     private static final PersonCharacteristicType CHARACTERISTICTYPE_DEFAULT = PersonCharacteristicType.APPLICANT;
 
-    private static final String[] PROPERTY_CONSTRAINTS = { "l0,n;u0,n;m1,1;", "l0,n;u0,n;m0,1;", "l0,n;u0,n;m1,1;",
-            "l0,n;u0,n;m1,1;", "l0,255;u0,n;m1,1;", "l0,n;u0,n;m1,1;", "m0,1;", "l0,n;u0,n;m0,1;",
-            "l0,4000;u0,n;m0,1;", "m0,1;", "m1,1;", "m0,1;", "m0,1;" };
+    private static final String[] PROPERTY_CONSTRAINTS = { "l0,n;u0,n;m0,1;", "l0,n;u0,n;m0,1;", "l0,n;u0,n;m0,1;",
+            "l0,n;u0,n;m0,1;", "l0,255;u0,n;m0,1;", "m0,1;", "m0,1;", "m0,1;" };
+
+    public static final String CREATEDDATE = "createdDate";
+
+    public static final String POOL = "pool";
 
     public static final String AVAILABILITYDATE = "availabilityDate";
 
     public static final String UNEMPLOYEDSINCE = "unemployedSince";
 
-    public static final String PLACEMENTVOUCHER = "placementVoucher";
-
-    public static final String EMPLOYED = "employed";
-
     public static final String PREFERREDLOCATION = "preferredLocation";
-
-    public static final String PREFERREDWORKINGHOURS = "preferredWorkingHours";
-
-    public static final String PREFERREDSALARYTIMEFRAME = "preferredSalaryTimeframe";
-
-    public static final String PREFERREDSALARYAMOUNT = "preferredSalaryAmount";
-
-    public static final String SOURCECHANNELADDITIONALS = "sourceChannelAdditionals";
-
-    public static final String PREFERREDSALARYAMOUNTCURRENCY = "preferredSalaryAmountCurrency";
 
     public static final String APPLICANTSTATUS = "applicantStatus";
 
-    public static final String CLASSIFICATION = "classification";
-
     public static final String SOURCECHANNEL = "sourceChannel";
+
+    public static final String SOURCECHANNELTYPE = "sourceChannelType";
+
+    /** Date of creating of applicant in system */
+    private Date createdDate;
+
+    /** The applicant should be saved in pool */
+    private Flag pool;
 
     private Date availabilityDate;
 
     private Date unemployedSince;
 
-    private Flag placementVoucher;
-
-    private Flag employed;
-
     private Name preferredLocation;
-
-    private Number preferredWorkingHours;
-
-    private SalaryTimeframe preferredSalaryTimeframe;
-
-    private Amount preferredSalaryAmount;
-
-    private Body sourceChannelAdditionals;
-
-    private Code preferredSalaryAmountCurrency;
-
-    private Long preferredSalaryAmountCurrencyRefId;
-
-    protected static final String PREFERREDSALARYAMOUNTCURRENCY_CODEPATH = "nabucco.framework.currency";
 
     private Code applicantStatus;
 
@@ -111,17 +82,17 @@ public class Applicant extends PersonCharacteristic implements Datatype {
 
     protected static final String APPLICANTSTATUS_CODEPATH = "nabucco.business.person.applicant.status";
 
-    private Code classification;
-
-    private Long classificationRefId;
-
-    protected static final String CLASSIFICATION_CODEPATH = "nabucco.business.person.applicant.classification";
-
     private Code sourceChannel;
 
     private Long sourceChannelRefId;
 
     protected static final String SOURCECHANNEL_CODEPATH = "nabucco.business.person.applicant.sourcechannel";
+
+    private Code sourceChannelType;
+
+    private Long sourceChannelTypeRefId;
+
+    protected static final String SOURCECHANNELTYPE_CODEPATH = "nabucco.business.person.applicant.sourcechanneltype";
 
     /** Constructs a new Applicant instance. */
     public Applicant() {
@@ -142,36 +113,20 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     protected void cloneObject(Applicant clone) {
         super.cloneObject(clone);
         clone.setCharacteristicType(this.getCharacteristicType());
+        if ((this.getCreatedDate() != null)) {
+            clone.setCreatedDate(this.getCreatedDate().cloneObject());
+        }
+        if ((this.getPool() != null)) {
+            clone.setPool(this.getPool().cloneObject());
+        }
         if ((this.getAvailabilityDate() != null)) {
             clone.setAvailabilityDate(this.getAvailabilityDate().cloneObject());
         }
         if ((this.getUnemployedSince() != null)) {
             clone.setUnemployedSince(this.getUnemployedSince().cloneObject());
         }
-        if ((this.getPlacementVoucher() != null)) {
-            clone.setPlacementVoucher(this.getPlacementVoucher().cloneObject());
-        }
-        if ((this.getEmployed() != null)) {
-            clone.setEmployed(this.getEmployed().cloneObject());
-        }
         if ((this.getPreferredLocation() != null)) {
             clone.setPreferredLocation(this.getPreferredLocation().cloneObject());
-        }
-        if ((this.getPreferredWorkingHours() != null)) {
-            clone.setPreferredWorkingHours(this.getPreferredWorkingHours().cloneObject());
-        }
-        clone.setPreferredSalaryTimeframe(this.getPreferredSalaryTimeframe());
-        if ((this.getPreferredSalaryAmount() != null)) {
-            clone.setPreferredSalaryAmount(this.getPreferredSalaryAmount().cloneObject());
-        }
-        if ((this.getSourceChannelAdditionals() != null)) {
-            clone.setSourceChannelAdditionals(this.getSourceChannelAdditionals().cloneObject());
-        }
-        if ((this.getPreferredSalaryAmountCurrency() != null)) {
-            clone.setPreferredSalaryAmountCurrency(this.getPreferredSalaryAmountCurrency().cloneObject());
-        }
-        if ((this.getPreferredSalaryAmountCurrencyRefId() != null)) {
-            clone.setPreferredSalaryAmountCurrencyRefId(this.getPreferredSalaryAmountCurrencyRefId());
         }
         if ((this.getApplicantStatus() != null)) {
             clone.setApplicantStatus(this.getApplicantStatus().cloneObject());
@@ -179,17 +134,17 @@ public class Applicant extends PersonCharacteristic implements Datatype {
         if ((this.getApplicantStatusRefId() != null)) {
             clone.setApplicantStatusRefId(this.getApplicantStatusRefId());
         }
-        if ((this.getClassification() != null)) {
-            clone.setClassification(this.getClassification().cloneObject());
-        }
-        if ((this.getClassificationRefId() != null)) {
-            clone.setClassificationRefId(this.getClassificationRefId());
-        }
         if ((this.getSourceChannel() != null)) {
             clone.setSourceChannel(this.getSourceChannel().cloneObject());
         }
         if ((this.getSourceChannelRefId() != null)) {
             clone.setSourceChannelRefId(this.getSourceChannelRefId());
+        }
+        if ((this.getSourceChannelType() != null)) {
+            clone.setSourceChannelType(this.getSourceChannelType().cloneObject());
+        }
+        if ((this.getSourceChannelTypeRefId() != null)) {
+            clone.setSourceChannelTypeRefId(this.getSourceChannelTypeRefId());
         }
     }
 
@@ -201,33 +156,22 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     protected static NabuccoPropertyContainer createPropertyContainer() {
         Map<String, NabuccoPropertyDescriptor> propertyMap = new HashMap<String, NabuccoPropertyDescriptor>();
         propertyMap.putAll(PropertyCache.getInstance().retrieve(PersonCharacteristic.class).getPropertyMap());
-        propertyMap.put(AVAILABILITYDATE, PropertyDescriptorSupport.createBasetype(AVAILABILITYDATE, Date.class, 6,
-                PROPERTY_CONSTRAINTS[0], false));
-        propertyMap.put(UNEMPLOYEDSINCE, PropertyDescriptorSupport.createBasetype(UNEMPLOYEDSINCE, Date.class, 7,
-                PROPERTY_CONSTRAINTS[1], false));
-        propertyMap.put(PLACEMENTVOUCHER, PropertyDescriptorSupport.createBasetype(PLACEMENTVOUCHER, Flag.class, 8,
+        propertyMap.put(CREATEDDATE,
+                PropertyDescriptorSupport.createBasetype(CREATEDDATE, Date.class, 6, PROPERTY_CONSTRAINTS[0], false));
+        propertyMap.put(POOL,
+                PropertyDescriptorSupport.createBasetype(POOL, Flag.class, 7, PROPERTY_CONSTRAINTS[1], false));
+        propertyMap.put(AVAILABILITYDATE, PropertyDescriptorSupport.createBasetype(AVAILABILITYDATE, Date.class, 8,
                 PROPERTY_CONSTRAINTS[2], false));
-        propertyMap.put(EMPLOYED,
-                PropertyDescriptorSupport.createBasetype(EMPLOYED, Flag.class, 9, PROPERTY_CONSTRAINTS[3], false));
+        propertyMap.put(UNEMPLOYEDSINCE, PropertyDescriptorSupport.createBasetype(UNEMPLOYEDSINCE, Date.class, 9,
+                PROPERTY_CONSTRAINTS[3], false));
         propertyMap.put(PREFERREDLOCATION, PropertyDescriptorSupport.createBasetype(PREFERREDLOCATION, Name.class, 10,
                 PROPERTY_CONSTRAINTS[4], false));
-        propertyMap.put(PREFERREDWORKINGHOURS, PropertyDescriptorSupport.createBasetype(PREFERREDWORKINGHOURS,
-                Number.class, 11, PROPERTY_CONSTRAINTS[5], false));
-        propertyMap.put(PREFERREDSALARYTIMEFRAME, PropertyDescriptorSupport.createEnumeration(PREFERREDSALARYTIMEFRAME,
-                SalaryTimeframe.class, 12, PROPERTY_CONSTRAINTS[6], false));
-        propertyMap.put(PREFERREDSALARYAMOUNT, PropertyDescriptorSupport.createBasetype(PREFERREDSALARYAMOUNT,
-                Amount.class, 13, PROPERTY_CONSTRAINTS[7], false));
-        propertyMap.put(SOURCECHANNELADDITIONALS, PropertyDescriptorSupport.createBasetype(SOURCECHANNELADDITIONALS,
-                Body.class, 14, PROPERTY_CONSTRAINTS[8], false));
-        propertyMap.put(PREFERREDSALARYAMOUNTCURRENCY, PropertyDescriptorSupport.createDatatype(
-                PREFERREDSALARYAMOUNTCURRENCY, Code.class, 15, PROPERTY_CONSTRAINTS[9], false,
-                PropertyAssociationType.COMPONENT, PREFERREDSALARYAMOUNTCURRENCY_CODEPATH));
-        propertyMap.put(APPLICANTSTATUS, PropertyDescriptorSupport.createDatatype(APPLICANTSTATUS, Code.class, 16,
-                PROPERTY_CONSTRAINTS[10], false, PropertyAssociationType.COMPONENT, APPLICANTSTATUS_CODEPATH));
-        propertyMap.put(CLASSIFICATION, PropertyDescriptorSupport.createDatatype(CLASSIFICATION, Code.class, 17,
-                PROPERTY_CONSTRAINTS[11], false, PropertyAssociationType.COMPONENT, CLASSIFICATION_CODEPATH));
-        propertyMap.put(SOURCECHANNEL, PropertyDescriptorSupport.createDatatype(SOURCECHANNEL, Code.class, 18,
-                PROPERTY_CONSTRAINTS[12], false, PropertyAssociationType.COMPONENT, SOURCECHANNEL_CODEPATH));
+        propertyMap.put(APPLICANTSTATUS, PropertyDescriptorSupport.createDatatype(APPLICANTSTATUS, Code.class, 11,
+                PROPERTY_CONSTRAINTS[5], false, PropertyAssociationType.COMPONENT, APPLICANTSTATUS_CODEPATH));
+        propertyMap.put(SOURCECHANNEL, PropertyDescriptorSupport.createDatatype(SOURCECHANNEL, Code.class, 12,
+                PROPERTY_CONSTRAINTS[6], false, PropertyAssociationType.COMPONENT, SOURCECHANNEL_CODEPATH));
+        propertyMap.put(SOURCECHANNELTYPE, PropertyDescriptorSupport.createDatatype(SOURCECHANNELTYPE, Code.class, 13,
+                PROPERTY_CONSTRAINTS[7], false, PropertyAssociationType.COMPONENT, SOURCECHANNELTYPE_CODEPATH));
         return new NabuccoPropertyContainer(propertyMap);
     }
 
@@ -239,31 +183,20 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     @Override
     public Set<NabuccoProperty> getProperties() {
         Set<NabuccoProperty> properties = super.getProperties();
+        properties.add(super.createProperty(Applicant.getPropertyDescriptor(CREATEDDATE), this.createdDate, null));
+        properties.add(super.createProperty(Applicant.getPropertyDescriptor(POOL), this.pool, null));
         properties.add(super.createProperty(Applicant.getPropertyDescriptor(AVAILABILITYDATE), this.availabilityDate,
                 null));
         properties.add(super.createProperty(Applicant.getPropertyDescriptor(UNEMPLOYEDSINCE), this.unemployedSince,
                 null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(PLACEMENTVOUCHER), this.placementVoucher,
-                null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(EMPLOYED), this.employed, null));
         properties.add(super.createProperty(Applicant.getPropertyDescriptor(PREFERREDLOCATION), this.preferredLocation,
                 null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(PREFERREDWORKINGHOURS),
-                this.preferredWorkingHours, null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(PREFERREDSALARYTIMEFRAME),
-                this.getPreferredSalaryTimeframe(), null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(PREFERREDSALARYAMOUNT),
-                this.preferredSalaryAmount, null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(SOURCECHANNELADDITIONALS),
-                this.sourceChannelAdditionals, null));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(PREFERREDSALARYAMOUNTCURRENCY),
-                this.getPreferredSalaryAmountCurrency(), this.preferredSalaryAmountCurrencyRefId));
         properties.add(super.createProperty(Applicant.getPropertyDescriptor(APPLICANTSTATUS),
                 this.getApplicantStatus(), this.applicantStatusRefId));
-        properties.add(super.createProperty(Applicant.getPropertyDescriptor(CLASSIFICATION), this.getClassification(),
-                this.classificationRefId));
         properties.add(super.createProperty(Applicant.getPropertyDescriptor(SOURCECHANNEL), this.getSourceChannel(),
                 this.sourceChannelRefId));
+        properties.add(super.createProperty(Applicant.getPropertyDescriptor(SOURCECHANNELTYPE),
+                this.getSourceChannelType(), this.sourceChannelTypeRefId));
         return properties;
     }
 
@@ -272,44 +205,29 @@ public class Applicant extends PersonCharacteristic implements Datatype {
         if (super.setProperty(property)) {
             return true;
         }
-        if ((property.getName().equals(AVAILABILITYDATE) && (property.getType() == Date.class))) {
+        if ((property.getName().equals(CREATEDDATE) && (property.getType() == Date.class))) {
+            this.setCreatedDate(((Date) property.getInstance()));
+            return true;
+        } else if ((property.getName().equals(POOL) && (property.getType() == Flag.class))) {
+            this.setPool(((Flag) property.getInstance()));
+            return true;
+        } else if ((property.getName().equals(AVAILABILITYDATE) && (property.getType() == Date.class))) {
             this.setAvailabilityDate(((Date) property.getInstance()));
             return true;
         } else if ((property.getName().equals(UNEMPLOYEDSINCE) && (property.getType() == Date.class))) {
             this.setUnemployedSince(((Date) property.getInstance()));
             return true;
-        } else if ((property.getName().equals(PLACEMENTVOUCHER) && (property.getType() == Flag.class))) {
-            this.setPlacementVoucher(((Flag) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(EMPLOYED) && (property.getType() == Flag.class))) {
-            this.setEmployed(((Flag) property.getInstance()));
-            return true;
         } else if ((property.getName().equals(PREFERREDLOCATION) && (property.getType() == Name.class))) {
             this.setPreferredLocation(((Name) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(PREFERREDWORKINGHOURS) && (property.getType() == Number.class))) {
-            this.setPreferredWorkingHours(((Number) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(PREFERREDSALARYTIMEFRAME) && (property.getType() == SalaryTimeframe.class))) {
-            this.setPreferredSalaryTimeframe(((SalaryTimeframe) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(PREFERREDSALARYAMOUNT) && (property.getType() == Amount.class))) {
-            this.setPreferredSalaryAmount(((Amount) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(SOURCECHANNELADDITIONALS) && (property.getType() == Body.class))) {
-            this.setSourceChannelAdditionals(((Body) property.getInstance()));
-            return true;
-        } else if ((property.getName().equals(PREFERREDSALARYAMOUNTCURRENCY) && (property.getType() == Code.class))) {
-            this.setPreferredSalaryAmountCurrency(((Code) property.getInstance()));
             return true;
         } else if ((property.getName().equals(APPLICANTSTATUS) && (property.getType() == Code.class))) {
             this.setApplicantStatus(((Code) property.getInstance()));
             return true;
-        } else if ((property.getName().equals(CLASSIFICATION) && (property.getType() == Code.class))) {
-            this.setClassification(((Code) property.getInstance()));
-            return true;
         } else if ((property.getName().equals(SOURCECHANNEL) && (property.getType() == Code.class))) {
             this.setSourceChannel(((Code) property.getInstance()));
+            return true;
+        } else if ((property.getName().equals(SOURCECHANNELTYPE) && (property.getType() == Code.class))) {
+            this.setSourceChannelType(((Code) property.getInstance()));
             return true;
         }
         return false;
@@ -330,6 +248,16 @@ public class Applicant extends PersonCharacteristic implements Datatype {
             return false;
         }
         final Applicant other = ((Applicant) obj);
+        if ((this.createdDate == null)) {
+            if ((other.createdDate != null))
+                return false;
+        } else if ((!this.createdDate.equals(other.createdDate)))
+            return false;
+        if ((this.pool == null)) {
+            if ((other.pool != null))
+                return false;
+        } else if ((!this.pool.equals(other.pool)))
+            return false;
         if ((this.availabilityDate == null)) {
             if ((other.availabilityDate != null))
                 return false;
@@ -340,50 +268,10 @@ public class Applicant extends PersonCharacteristic implements Datatype {
                 return false;
         } else if ((!this.unemployedSince.equals(other.unemployedSince)))
             return false;
-        if ((this.placementVoucher == null)) {
-            if ((other.placementVoucher != null))
-                return false;
-        } else if ((!this.placementVoucher.equals(other.placementVoucher)))
-            return false;
-        if ((this.employed == null)) {
-            if ((other.employed != null))
-                return false;
-        } else if ((!this.employed.equals(other.employed)))
-            return false;
         if ((this.preferredLocation == null)) {
             if ((other.preferredLocation != null))
                 return false;
         } else if ((!this.preferredLocation.equals(other.preferredLocation)))
-            return false;
-        if ((this.preferredWorkingHours == null)) {
-            if ((other.preferredWorkingHours != null))
-                return false;
-        } else if ((!this.preferredWorkingHours.equals(other.preferredWorkingHours)))
-            return false;
-        if ((this.preferredSalaryTimeframe == null)) {
-            if ((other.preferredSalaryTimeframe != null))
-                return false;
-        } else if ((!this.preferredSalaryTimeframe.equals(other.preferredSalaryTimeframe)))
-            return false;
-        if ((this.preferredSalaryAmount == null)) {
-            if ((other.preferredSalaryAmount != null))
-                return false;
-        } else if ((!this.preferredSalaryAmount.equals(other.preferredSalaryAmount)))
-            return false;
-        if ((this.sourceChannelAdditionals == null)) {
-            if ((other.sourceChannelAdditionals != null))
-                return false;
-        } else if ((!this.sourceChannelAdditionals.equals(other.sourceChannelAdditionals)))
-            return false;
-        if ((this.preferredSalaryAmountCurrency == null)) {
-            if ((other.preferredSalaryAmountCurrency != null))
-                return false;
-        } else if ((!this.preferredSalaryAmountCurrency.equals(other.preferredSalaryAmountCurrency)))
-            return false;
-        if ((this.preferredSalaryAmountCurrencyRefId == null)) {
-            if ((other.preferredSalaryAmountCurrencyRefId != null))
-                return false;
-        } else if ((!this.preferredSalaryAmountCurrencyRefId.equals(other.preferredSalaryAmountCurrencyRefId)))
             return false;
         if ((this.applicantStatus == null)) {
             if ((other.applicantStatus != null))
@@ -395,16 +283,6 @@ public class Applicant extends PersonCharacteristic implements Datatype {
                 return false;
         } else if ((!this.applicantStatusRefId.equals(other.applicantStatusRefId)))
             return false;
-        if ((this.classification == null)) {
-            if ((other.classification != null))
-                return false;
-        } else if ((!this.classification.equals(other.classification)))
-            return false;
-        if ((this.classificationRefId == null)) {
-            if ((other.classificationRefId != null))
-                return false;
-        } else if ((!this.classificationRefId.equals(other.classificationRefId)))
-            return false;
         if ((this.sourceChannel == null)) {
             if ((other.sourceChannel != null))
                 return false;
@@ -415,6 +293,16 @@ public class Applicant extends PersonCharacteristic implements Datatype {
                 return false;
         } else if ((!this.sourceChannelRefId.equals(other.sourceChannelRefId)))
             return false;
+        if ((this.sourceChannelType == null)) {
+            if ((other.sourceChannelType != null))
+                return false;
+        } else if ((!this.sourceChannelType.equals(other.sourceChannelType)))
+            return false;
+        if ((this.sourceChannelTypeRefId == null)) {
+            if ((other.sourceChannelTypeRefId != null))
+                return false;
+        } else if ((!this.sourceChannelTypeRefId.equals(other.sourceChannelTypeRefId)))
+            return false;
         return true;
     }
 
@@ -422,27 +310,18 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     public int hashCode() {
         final int PRIME = 31;
         int result = super.hashCode();
+        result = ((PRIME * result) + ((this.createdDate == null) ? 0 : this.createdDate.hashCode()));
+        result = ((PRIME * result) + ((this.pool == null) ? 0 : this.pool.hashCode()));
         result = ((PRIME * result) + ((this.availabilityDate == null) ? 0 : this.availabilityDate.hashCode()));
         result = ((PRIME * result) + ((this.unemployedSince == null) ? 0 : this.unemployedSince.hashCode()));
-        result = ((PRIME * result) + ((this.placementVoucher == null) ? 0 : this.placementVoucher.hashCode()));
-        result = ((PRIME * result) + ((this.employed == null) ? 0 : this.employed.hashCode()));
         result = ((PRIME * result) + ((this.preferredLocation == null) ? 0 : this.preferredLocation.hashCode()));
-        result = ((PRIME * result) + ((this.preferredWorkingHours == null) ? 0 : this.preferredWorkingHours.hashCode()));
-        result = ((PRIME * result) + ((this.preferredSalaryTimeframe == null) ? 0 : this.preferredSalaryTimeframe
-                .hashCode()));
-        result = ((PRIME * result) + ((this.preferredSalaryAmount == null) ? 0 : this.preferredSalaryAmount.hashCode()));
-        result = ((PRIME * result) + ((this.sourceChannelAdditionals == null) ? 0 : this.sourceChannelAdditionals
-                .hashCode()));
-        result = ((PRIME * result) + ((this.preferredSalaryAmountCurrency == null) ? 0
-                : this.preferredSalaryAmountCurrency.hashCode()));
-        result = ((PRIME * result) + ((this.preferredSalaryAmountCurrencyRefId == null) ? 0
-                : this.preferredSalaryAmountCurrencyRefId.hashCode()));
         result = ((PRIME * result) + ((this.applicantStatus == null) ? 0 : this.applicantStatus.hashCode()));
         result = ((PRIME * result) + ((this.applicantStatusRefId == null) ? 0 : this.applicantStatusRefId.hashCode()));
-        result = ((PRIME * result) + ((this.classification == null) ? 0 : this.classification.hashCode()));
-        result = ((PRIME * result) + ((this.classificationRefId == null) ? 0 : this.classificationRefId.hashCode()));
         result = ((PRIME * result) + ((this.sourceChannel == null) ? 0 : this.sourceChannel.hashCode()));
         result = ((PRIME * result) + ((this.sourceChannelRefId == null) ? 0 : this.sourceChannelRefId.hashCode()));
+        result = ((PRIME * result) + ((this.sourceChannelType == null) ? 0 : this.sourceChannelType.hashCode()));
+        result = ((PRIME * result) + ((this.sourceChannelTypeRefId == null) ? 0 : this.sourceChannelTypeRefId
+                .hashCode()));
         return result;
     }
 
@@ -451,6 +330,72 @@ public class Applicant extends PersonCharacteristic implements Datatype {
         Applicant clone = new Applicant();
         this.cloneObject(clone);
         return clone;
+    }
+
+    /**
+     * Date of creating of applicant in system
+     *
+     * @return the Date.
+     */
+    public Date getCreatedDate() {
+        return this.createdDate;
+    }
+
+    /**
+     * Date of creating of applicant in system
+     *
+     * @param createdDate the Date.
+     */
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    /**
+     * Date of creating of applicant in system
+     *
+     * @param createdDate the java.util.Date.
+     */
+    public void setCreatedDate(java.util.Date createdDate) {
+        if ((this.createdDate == null)) {
+            if ((createdDate == null)) {
+                return;
+            }
+            this.createdDate = new Date();
+        }
+        this.createdDate.setValue(createdDate);
+    }
+
+    /**
+     * The applicant should be saved in pool
+     *
+     * @return the Flag.
+     */
+    public Flag getPool() {
+        return this.pool;
+    }
+
+    /**
+     * The applicant should be saved in pool
+     *
+     * @param pool the Flag.
+     */
+    public void setPool(Flag pool) {
+        this.pool = pool;
+    }
+
+    /**
+     * The applicant should be saved in pool
+     *
+     * @param pool the Boolean.
+     */
+    public void setPool(Boolean pool) {
+        if ((this.pool == null)) {
+            if ((pool == null)) {
+                return;
+            }
+            this.pool = new Flag();
+        }
+        this.pool.setValue(pool);
     }
 
     /**
@@ -520,72 +465,6 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     }
 
     /**
-     * Missing description at method getPlacementVoucher.
-     *
-     * @return the Flag.
-     */
-    public Flag getPlacementVoucher() {
-        return this.placementVoucher;
-    }
-
-    /**
-     * Missing description at method setPlacementVoucher.
-     *
-     * @param placementVoucher the Flag.
-     */
-    public void setPlacementVoucher(Flag placementVoucher) {
-        this.placementVoucher = placementVoucher;
-    }
-
-    /**
-     * Missing description at method setPlacementVoucher.
-     *
-     * @param placementVoucher the Boolean.
-     */
-    public void setPlacementVoucher(Boolean placementVoucher) {
-        if ((this.placementVoucher == null)) {
-            if ((placementVoucher == null)) {
-                return;
-            }
-            this.placementVoucher = new Flag();
-        }
-        this.placementVoucher.setValue(placementVoucher);
-    }
-
-    /**
-     * Missing description at method getEmployed.
-     *
-     * @return the Flag.
-     */
-    public Flag getEmployed() {
-        return this.employed;
-    }
-
-    /**
-     * Missing description at method setEmployed.
-     *
-     * @param employed the Flag.
-     */
-    public void setEmployed(Flag employed) {
-        this.employed = employed;
-    }
-
-    /**
-     * Missing description at method setEmployed.
-     *
-     * @param employed the Boolean.
-     */
-    public void setEmployed(Boolean employed) {
-        if ((this.employed == null)) {
-            if ((employed == null)) {
-                return;
-            }
-            this.employed = new Flag();
-        }
-        this.employed.setValue(employed);
-    }
-
-    /**
      * Missing description at method getPreferredLocation.
      *
      * @return the Name.
@@ -616,177 +495,6 @@ public class Applicant extends PersonCharacteristic implements Datatype {
             this.preferredLocation = new Name();
         }
         this.preferredLocation.setValue(preferredLocation);
-    }
-
-    /**
-     * Missing description at method getPreferredWorkingHours.
-     *
-     * @return the Number.
-     */
-    public Number getPreferredWorkingHours() {
-        return this.preferredWorkingHours;
-    }
-
-    /**
-     * Missing description at method setPreferredWorkingHours.
-     *
-     * @param preferredWorkingHours the Number.
-     */
-    public void setPreferredWorkingHours(Number preferredWorkingHours) {
-        this.preferredWorkingHours = preferredWorkingHours;
-    }
-
-    /**
-     * Missing description at method setPreferredWorkingHours.
-     *
-     * @param preferredWorkingHours the Integer.
-     */
-    public void setPreferredWorkingHours(Integer preferredWorkingHours) {
-        if ((this.preferredWorkingHours == null)) {
-            if ((preferredWorkingHours == null)) {
-                return;
-            }
-            this.preferredWorkingHours = new Number();
-        }
-        this.preferredWorkingHours.setValue(preferredWorkingHours);
-    }
-
-    /**
-     * Missing description at method getPreferredSalaryTimeframe.
-     *
-     * @return the SalaryTimeframe.
-     */
-    public SalaryTimeframe getPreferredSalaryTimeframe() {
-        return this.preferredSalaryTimeframe;
-    }
-
-    /**
-     * Missing description at method setPreferredSalaryTimeframe.
-     *
-     * @param preferredSalaryTimeframe the SalaryTimeframe.
-     */
-    public void setPreferredSalaryTimeframe(SalaryTimeframe preferredSalaryTimeframe) {
-        this.preferredSalaryTimeframe = preferredSalaryTimeframe;
-    }
-
-    /**
-     * Missing description at method setPreferredSalaryTimeframe.
-     *
-     * @param preferredSalaryTimeframe the String.
-     */
-    public void setPreferredSalaryTimeframe(String preferredSalaryTimeframe) {
-        if ((preferredSalaryTimeframe == null)) {
-            this.preferredSalaryTimeframe = null;
-        } else {
-            this.preferredSalaryTimeframe = SalaryTimeframe.valueOf(preferredSalaryTimeframe);
-        }
-    }
-
-    /**
-     * Missing description at method getPreferredSalaryAmount.
-     *
-     * @return the Amount.
-     */
-    public Amount getPreferredSalaryAmount() {
-        return this.preferredSalaryAmount;
-    }
-
-    /**
-     * Missing description at method setPreferredSalaryAmount.
-     *
-     * @param preferredSalaryAmount the Amount.
-     */
-    public void setPreferredSalaryAmount(Amount preferredSalaryAmount) {
-        this.preferredSalaryAmount = preferredSalaryAmount;
-    }
-
-    /**
-     * Missing description at method setPreferredSalaryAmount.
-     *
-     * @param preferredSalaryAmount the java.math.BigDecimal.
-     */
-    public void setPreferredSalaryAmount(java.math.BigDecimal preferredSalaryAmount) {
-        if ((this.preferredSalaryAmount == null)) {
-            if ((preferredSalaryAmount == null)) {
-                return;
-            }
-            this.preferredSalaryAmount = new Amount();
-        }
-        this.preferredSalaryAmount.setValue(preferredSalaryAmount);
-    }
-
-    /**
-     * Missing description at method getSourceChannelAdditionals.
-     *
-     * @return the Body.
-     */
-    public Body getSourceChannelAdditionals() {
-        return this.sourceChannelAdditionals;
-    }
-
-    /**
-     * Missing description at method setSourceChannelAdditionals.
-     *
-     * @param sourceChannelAdditionals the Body.
-     */
-    public void setSourceChannelAdditionals(Body sourceChannelAdditionals) {
-        this.sourceChannelAdditionals = sourceChannelAdditionals;
-    }
-
-    /**
-     * Missing description at method setSourceChannelAdditionals.
-     *
-     * @param sourceChannelAdditionals the String.
-     */
-    public void setSourceChannelAdditionals(String sourceChannelAdditionals) {
-        if ((this.sourceChannelAdditionals == null)) {
-            if ((sourceChannelAdditionals == null)) {
-                return;
-            }
-            this.sourceChannelAdditionals = new Body();
-        }
-        this.sourceChannelAdditionals.setValue(sourceChannelAdditionals);
-    }
-
-    /**
-     * Missing description at method setPreferredSalaryAmountCurrency.
-     *
-     * @param preferredSalaryAmountCurrency the Code.
-     */
-    public void setPreferredSalaryAmountCurrency(Code preferredSalaryAmountCurrency) {
-        this.preferredSalaryAmountCurrency = preferredSalaryAmountCurrency;
-        if ((preferredSalaryAmountCurrency != null)) {
-            this.setPreferredSalaryAmountCurrencyRefId(preferredSalaryAmountCurrency.getId());
-        } else {
-            this.setPreferredSalaryAmountCurrencyRefId(null);
-        }
-    }
-
-    /**
-     * Missing description at method getPreferredSalaryAmountCurrency.
-     *
-     * @return the Code.
-     */
-    public Code getPreferredSalaryAmountCurrency() {
-        return this.preferredSalaryAmountCurrency;
-    }
-
-    /**
-     * Getter for the PreferredSalaryAmountCurrencyRefId.
-     *
-     * @return the Long.
-     */
-    public Long getPreferredSalaryAmountCurrencyRefId() {
-        return this.preferredSalaryAmountCurrencyRefId;
-    }
-
-    /**
-     * Setter for the PreferredSalaryAmountCurrencyRefId.
-     *
-     * @param preferredSalaryAmountCurrencyRefId the Long.
-     */
-    public void setPreferredSalaryAmountCurrencyRefId(Long preferredSalaryAmountCurrencyRefId) {
-        this.preferredSalaryAmountCurrencyRefId = preferredSalaryAmountCurrencyRefId;
     }
 
     /**
@@ -831,47 +539,6 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     }
 
     /**
-     * Missing description at method setClassification.
-     *
-     * @param classification the Code.
-     */
-    public void setClassification(Code classification) {
-        this.classification = classification;
-        if ((classification != null)) {
-            this.setClassificationRefId(classification.getId());
-        } else {
-            this.setClassificationRefId(null);
-        }
-    }
-
-    /**
-     * Missing description at method getClassification.
-     *
-     * @return the Code.
-     */
-    public Code getClassification() {
-        return this.classification;
-    }
-
-    /**
-     * Getter for the ClassificationRefId.
-     *
-     * @return the Long.
-     */
-    public Long getClassificationRefId() {
-        return this.classificationRefId;
-    }
-
-    /**
-     * Setter for the ClassificationRefId.
-     *
-     * @param classificationRefId the Long.
-     */
-    public void setClassificationRefId(Long classificationRefId) {
-        this.classificationRefId = classificationRefId;
-    }
-
-    /**
      * Missing description at method setSourceChannel.
      *
      * @param sourceChannel the Code.
@@ -913,6 +580,47 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     }
 
     /**
+     * Missing description at method setSourceChannelType.
+     *
+     * @param sourceChannelType the Code.
+     */
+    public void setSourceChannelType(Code sourceChannelType) {
+        this.sourceChannelType = sourceChannelType;
+        if ((sourceChannelType != null)) {
+            this.setSourceChannelTypeRefId(sourceChannelType.getId());
+        } else {
+            this.setSourceChannelTypeRefId(null);
+        }
+    }
+
+    /**
+     * Missing description at method getSourceChannelType.
+     *
+     * @return the Code.
+     */
+    public Code getSourceChannelType() {
+        return this.sourceChannelType;
+    }
+
+    /**
+     * Getter for the SourceChannelTypeRefId.
+     *
+     * @return the Long.
+     */
+    public Long getSourceChannelTypeRefId() {
+        return this.sourceChannelTypeRefId;
+    }
+
+    /**
+     * Setter for the SourceChannelTypeRefId.
+     *
+     * @param sourceChannelTypeRefId the Long.
+     */
+    public void setSourceChannelTypeRefId(Long sourceChannelTypeRefId) {
+        this.sourceChannelTypeRefId = sourceChannelTypeRefId;
+    }
+
+    /**
      * Getter for the PropertyDescriptor.
      *
      * @param propertyName the String.
@@ -932,15 +640,6 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     }
 
     /**
-     * Getter for the PreferredSalaryAmountCurrencyCodePath.
-     *
-     * @return the CodePath.
-     */
-    public static CodePath getPreferredSalaryAmountCurrencyCodePath() {
-        return new CodePath(PREFERREDSALARYAMOUNTCURRENCY_CODEPATH);
-    }
-
-    /**
      * Getter for the ApplicantStatusCodePath.
      *
      * @return the CodePath.
@@ -950,20 +649,20 @@ public class Applicant extends PersonCharacteristic implements Datatype {
     }
 
     /**
-     * Getter for the ClassificationCodePath.
-     *
-     * @return the CodePath.
-     */
-    public static CodePath getClassificationCodePath() {
-        return new CodePath(CLASSIFICATION_CODEPATH);
-    }
-
-    /**
      * Getter for the SourceChannelCodePath.
      *
      * @return the CodePath.
      */
     public static CodePath getSourceChannelCodePath() {
         return new CodePath(SOURCECHANNEL_CODEPATH);
+    }
+
+    /**
+     * Getter for the SourceChannelTypeCodePath.
+     *
+     * @return the CodePath.
+     */
+    public static CodePath getSourceChannelTypeCodePath() {
+        return new CodePath(SOURCECHANNELTYPE_CODEPATH);
     }
 }

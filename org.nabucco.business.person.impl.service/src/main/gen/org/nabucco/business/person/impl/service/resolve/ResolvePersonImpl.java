@@ -1,18 +1,16 @@
 /*
  * Copyright 2012 PRODYNA AG
- *
- * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License"); you may not use
+ * this file except in compliance with the License. You may obtain a copy of the License at
+ * 
  * http://www.opensource.org/licenses/eclipse-1.0.php or
  * http://www.nabucco.org/License.html
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 package org.nabucco.business.person.impl.service.resolve;
 
@@ -20,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import org.nabucco.business.person.facade.message.ApplicantListMsg;
 import org.nabucco.business.person.facade.message.ApplicantMsg;
 import org.nabucco.business.person.facade.message.ContactPersonMsg;
 import org.nabucco.business.person.facade.message.EmployeeMsg;
@@ -61,6 +60,8 @@ public class ResolvePersonImpl extends ServiceSupport implements ResolvePerson {
 
     private ResolveApplicantServiceHandler resolveApplicantServiceHandler;
 
+    private ResolveApplicantListServiceHandler resolveApplicantListServiceHandler;
+
     private ResolveDatatypeListServiceHandler resolveDatatypeListServiceHandler;
 
     private EntityManager entityManager;
@@ -101,6 +102,11 @@ public class ResolvePersonImpl extends ServiceSupport implements ResolvePerson {
             this.resolveApplicantServiceHandler.setPersistenceManager(persistenceManager);
             this.resolveApplicantServiceHandler.setLogger(super.getLogger());
         }
+        this.resolveApplicantListServiceHandler = injector.inject(ResolveApplicantListServiceHandler.getId());
+        if ((this.resolveApplicantListServiceHandler != null)) {
+            this.resolveApplicantListServiceHandler.setPersistenceManager(persistenceManager);
+            this.resolveApplicantListServiceHandler.setLogger(super.getLogger());
+        }
         this.resolveDatatypeListServiceHandler = injector.inject(ResolveDatatypeListServiceHandler.getId());
         if ((this.resolveDatatypeListServiceHandler != null)) {
             this.resolveDatatypeListServiceHandler.setPersistenceManager(persistenceManager);
@@ -126,8 +132,12 @@ public class ResolvePersonImpl extends ServiceSupport implements ResolvePerson {
                     "org.nabucco.aspect.constraining", "org.nabucco.aspect.transitioning" });
             ASPECTS.put("resolveContactPerson", new String[] { "org.nabucco.aspect.constraining",
                     "org.nabucco.aspect.transitioning" });
-            ASPECTS.put("resolveApplicant", new String[] { "org.nabucco.aspect.constraining",
-                    "org.nabucco.aspect.transitioning" });
+            ASPECTS.put("resolveApplicant", new String[] { "org.nabucco.aspect.resolving",
+                    "org.nabucco.aspect.transitioning", "org.nabucco.aspect.constraining",
+                    "org.nabucco.aspect.historization" });
+            ASPECTS.put("resolveApplicantList", new String[] { "org.nabucco.aspect.resolving",
+                    "org.nabucco.aspect.transitioning", "org.nabucco.aspect.constraining",
+                    "org.nabucco.aspect.historization" });
             ASPECTS.put("resolveDatatypeList", new String[] { "org.nabucco.aspect.constraining",
                     "org.nabucco.aspect.transitioning" });
         }
@@ -203,6 +213,20 @@ public class ResolvePersonImpl extends ServiceSupport implements ResolvePerson {
         this.resolveApplicantServiceHandler.init();
         rs = this.resolveApplicantServiceHandler.invoke(rq);
         this.resolveApplicantServiceHandler.finish();
+        return rs;
+    }
+
+    @Override
+    public ServiceResponse<ApplicantListMsg> resolveApplicantList(ServiceRequest<ApplicantListMsg> rq)
+            throws ResolveException {
+        if ((this.resolveApplicantListServiceHandler == null)) {
+            super.getLogger().error("No service implementation configured for resolveApplicantList().");
+            throw new InjectionException("No service implementation configured for resolveApplicantList().");
+        }
+        ServiceResponse<ApplicantListMsg> rs;
+        this.resolveApplicantListServiceHandler.init();
+        rs = this.resolveApplicantListServiceHandler.invoke(rq);
+        this.resolveApplicantListServiceHandler.finish();
         return rs;
     }
 

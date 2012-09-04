@@ -14,7 +14,7 @@
  */
 package org.nabucco.business.person.impl.service.resolve;
 
-import org.nabucco.business.person.facade.message.PersonMasterMsg;
+import org.nabucco.business.person.facade.message.ApplicantListMsg;
 import org.nabucco.framework.base.facade.exception.NabuccoException;
 import org.nabucco.framework.base.facade.exception.service.ResolveException;
 import org.nabucco.framework.base.facade.message.ServiceRequest;
@@ -24,43 +24,43 @@ import org.nabucco.framework.base.impl.service.maintain.PersistenceServiceHandle
 import org.nabucco.framework.base.impl.service.maintain.PersistenceServiceHandlerSupport;
 
 /**
- * ResolvePersonMasterServiceHandler<p/>Resolve Service for Person<p/>
+ * ResolveApplicantListServiceHandler<p/>Resolve Service for Person<p/>
  *
  * @version 1.0
  * @author Dominic Trumpfheller, PRODYNA AG, 2010-11-30
  */
-public abstract class ResolvePersonMasterServiceHandler extends PersistenceServiceHandlerSupport implements
+public abstract class ResolveApplicantListServiceHandler extends PersistenceServiceHandlerSupport implements
         ServiceHandler, PersistenceServiceHandler {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String ID = "org.nabucco.business.person.impl.service.resolve.ResolvePersonMasterServiceHandler";
+    private static final String ID = "org.nabucco.business.person.impl.service.resolve.ResolveApplicantListServiceHandler";
 
-    /** Constructs a new ResolvePersonMasterServiceHandler instance. */
-    public ResolvePersonMasterServiceHandler() {
+    /** Constructs a new ResolveApplicantListServiceHandler instance. */
+    public ResolveApplicantListServiceHandler() {
         super();
     }
 
     /**
      * Invokes the service handler method.
      *
-     * @param rq the ServiceRequest<PersonMasterMsg>.
-     * @return the ServiceResponse<PersonMasterMsg>.
+     * @param rq the ServiceRequest<ApplicantListMsg>.
+     * @return the ServiceResponse<ApplicantListMsg>.
      * @throws ResolveException
      */
-    protected ServiceResponse<PersonMasterMsg> invoke(ServiceRequest<PersonMasterMsg> rq) throws ResolveException {
-        ServiceResponse<PersonMasterMsg> rs;
-        PersonMasterMsg msg;
+    protected ServiceResponse<ApplicantListMsg> invoke(ServiceRequest<ApplicantListMsg> rq) throws ResolveException {
+        ServiceResponse<ApplicantListMsg> rs;
+        ApplicantListMsg msg;
         try {
             this.validateRequest(rq);
             this.setContext(rq.getContext());
-            msg = this.resolvePersonMaster(rq.getRequestMessage());
+            msg = this.resolveApplicantList(rq.getRequestMessage());
             if ((msg == null)) {
                 super.getLogger().warning("No response message defined.");
             } else {
                 super.cleanServiceMessage(msg);
             }
-            rs = new ServiceResponse<PersonMasterMsg>(rq.getContext());
+            rs = new ServiceResponse<ApplicantListMsg>(rq.getContext());
             rs.setResponseMessage(msg);
             return rs;
         } catch (ResolveException e) {
@@ -77,13 +77,13 @@ public abstract class ResolvePersonMasterServiceHandler extends PersistenceServi
     }
 
     /**
-     * Missing description at method resolvePersonMaster.
+     * Missing description at method resolveApplicantList.
      *
-     * @param msg the PersonMasterMsg.
-     * @return the PersonMasterMsg.
+     * @param msg the ApplicantListMsg.
+     * @return the ApplicantListMsg.
      * @throws ResolveException
      */
-    protected abstract PersonMasterMsg resolvePersonMaster(PersonMasterMsg msg) throws ResolveException;
+    protected abstract ApplicantListMsg resolveApplicantList(ApplicantListMsg msg) throws ResolveException;
 
     /**
      * Getter for the Id.

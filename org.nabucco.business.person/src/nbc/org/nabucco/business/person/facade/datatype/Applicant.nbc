@@ -18,14 +18,10 @@ package org.nabucco.business.person.facade.datatype;
 
 import org.nabucco.business.person.facade.datatype.PersonCharacteristic;
 import org.nabucco.business.person.facade.datatype.PersonCharacteristicType;
-import org.nabucco.business.person.facade.datatype.SalaryTimeframe;
-import org.nabucco.framework.base.facade.datatype.Amount;
 import org.nabucco.framework.base.facade.datatype.Flag;
 import org.nabucco.framework.base.facade.datatype.Name;
-import org.nabucco.framework.base.facade.datatype.Number;
 import org.nabucco.framework.base.facade.datatype.code.Code;
 import org.nabucco.framework.base.facade.datatype.date.Date;
-import org.nabucco.framework.base.facade.datatype.mail.Body;
 
 @Author			Raffael Bieniek
 @Company		PRODYNA AG
@@ -37,33 +33,24 @@ public Datatype Applicant extends PersonCharacteristic {
 	@Default APPLICANT
 	protected Enumeration PersonCharacteristicType[1] characteristicType;
 	
-	private Basetype Date[1] availabilityDate;
+	@Description		Date of creating of applicant in system
+	private Basetype Date[0..1] createdDate;
+	
+	@Description		The applicant should be saved in pool
+	private Basetype Flag[0..1] pool; 
+	
+	private Basetype Date[0..1] availabilityDate;
 	
 	private Basetype Date[0..1] unemployedSince;
 	
-	private Basetype Flag[1] placementVoucher;
-	
-	private Basetype Flag[1] employed;
-	
-	private Basetype Name[1] preferredLocation;
-	
-	private Basetype Number[1] preferredWorkingHours;
-	
-	private Enumeration SalaryTimeframe[0..1] preferredSalaryTimeframe; 
-	
-	private Basetype Amount[0..1] preferredSalaryAmount;
-	
-	private Basetype Body[0..1] sourceChannelAdditionals;
-	
-	@CodePath nabucco.framework.currency
-	private Datatype Code[0..1] preferredSalaryAmountCurrency;
+	private Basetype Name[0..1] preferredLocation;
 	
 	@CodePath nabucco.business.person.applicant.status
-	private Datatype Code[1] applicantStatus;
-	
-	@CodePath nabucco.business.person.applicant.classification
-	private Datatype Code[0..1] classification;
+	private Datatype Code[0..1] applicantStatus;
 	
 	@CodePath nabucco.business.person.applicant.sourcechannel
 	private Datatype Code[0..1] sourceChannel;
+	
+	@CodePath nabucco.business.person.applicant.sourcechanneltype
+	private Datatype Code[0..1] sourceChannelType;
 }
